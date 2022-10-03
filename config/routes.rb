@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
+  get 'relationships/followings'
+  get 'relationships/followers'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   devise_for :users
-  resources :users, only: [:index,:show,:edit,:update]
+# ネストさせる
+  resources :users, only: [:index,:show,:edit,:update] do
+    member do
+      get :follows, :followers
+    end
+    resource :relationships, only: [:create, :destroy]
+  end
 
   resources :books do
    resources :book_comments, only: [:create, :destroy]

@@ -4,6 +4,7 @@
     <div class='col-md-3'>
       <h2>User info</h2>
       <%= render 'users/info', user: current_user %>
+      
       <h2 class="mt-3">New book</h2>
       <%= render 'form', book: @book %>
     </div>
@@ -11,22 +12,23 @@
       <h2>Books</h2>
       <%= render 'index', books: @books %>
       
+
       <% if @book.favorited_by?(current_user) %>
-      
+
          <%= link_to book_favorites_path(@book), method: :delete do %>
           ♥<%= @book.favorites.count %>
          <% end %>
-         
+
        <% else %>
-      
+
          <%= link_to book_favorites_path(@books), method: :post do %>
           ♡<%= @book.favorites.count %>
          <% end %>
 
       <% end %>
-      
+
       コメント数:<% @book.book_comments %>
-     
+
     </div>
   </div>
 </div>
