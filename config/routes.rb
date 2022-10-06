@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   devise_for :users
 # ネストさせる
   resources :users, only: [:index,:show,:edit,:update] do
-    member do
-      get :follows, :followers
-    end
+   
     resource :relationships, only: [:create, :destroy]
+  	get 'followings' => 'relationships#followings', as: 'followings'
+  	get 'followers' => 'relationships#followers', as: 'followers'
   end
 
   resources :books do
@@ -16,6 +16,7 @@ Rails.application.routes.draw do
    resource :favorites, only: [:create, :destroy]
 
   end
+  get "search" => "searches#search"
   root :to =>"homes#top"
   get "home/about"=>'homes#about', as: 'about'
 
