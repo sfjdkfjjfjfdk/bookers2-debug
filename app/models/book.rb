@@ -11,18 +11,16 @@ class Book < ApplicationRecord
   end
   
   # 検索方法分岐
-  def self.looks(search, word)
-    if search == "perfect_match" #完全一致
-      @book = Book.where("title LIKE?","#{word}")
-    elsif search == "forward_match" #前方一致
-      @book = Book.where("title LIKE?","#{word}%")
-    elsif search == "backward_match" #後方一致
-      @book = Book.where("title LIKE?","%#{word}")
-    elsif search == "partial_match" #部分一致
-      @book = Book.where("title LIKE?","%#{word}%")
+  def self.search_for(content, method)
+    if method == 'perfect' #完全一致
+      Book.where(title: content)
+    elsif method == 'forward' #前方一致
+      Book.where('title LIKE ?', content+'%')
+    elsif method == 'backward' 
+      Book.where('title LIKE ?', '%'+content)
     else
-      @book = Book.all
+      Book.where('title LIKE ?', '%'+content+'%')
     end
   end
-
+  
 end
